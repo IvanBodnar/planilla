@@ -1,4 +1,3 @@
-import psycopg2
 from sqlalchemy import create_engine
 from sqlalchemy import Table, MetaData
 
@@ -10,9 +9,11 @@ siniestros = Table('siniestros', metadata, autoload=True)
 #victimas = Table('victimas', metadata, autoload=True)
 
 
-def insert(table, *args):
+def insert(table, inspectores, fecha, hora_llegada, calle_1,
+           calle_2, altura):
     conn = engine.connect()
-    ins = table.insert().values(args)
+    ins = table.insert().values(inspectores=inspectores, fecha=fecha, hora_llegada=hora_llegada,
+                                calle_1=calle_1, calle_2=calle_2, altura=altura)
     conn.execute(ins)
     conn.close()
 
