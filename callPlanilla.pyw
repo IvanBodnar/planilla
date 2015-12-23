@@ -14,6 +14,12 @@ class Form(QtGui.QDialog):
         self.ui.comboBoxInspector.completer().setCompletionMode(QtGui.QCompleter.PopupCompletion)
         self.ui.comboBoxCalle1.completer().setCompletionMode(QtGui.QCompleter.PopupCompletion)
         self.ui.comboBoxCalle2.completer().setCompletionMode(QtGui.QCompleter.PopupCompletion)
+        self.ui.comboBoxArteria1.completer().setCompletionMode(QtGui.QCompleter.PopupCompletion)
+        self.ui.comboBoxArteria2.completer().setCompletionMode(QtGui.QCompleter.PopupCompletion)
+        self.ui.comboBoxV1.completer().setCompletionMode(QtGui.QCompleter.PopupCompletion)
+        self.ui.comboBoxV2.completer().setCompletionMode(QtGui.QCompleter.PopupCompletion)
+        self.ui.comboBoxV3.completer().setCompletionMode(QtGui.QCompleter.PopupCompletion)
+        self.ui.comboBoxV4.completer().setCompletionMode(QtGui.QCompleter.PopupCompletion)
         self.ui.dateEdit.setDate(QtCore.QDate.currentDate())
         self.ui.spinBoxAltura.clear()
         QtCore.QObject.connect(self.ui.pushButtonAgregar,
@@ -33,15 +39,23 @@ class Form(QtGui.QDialog):
         hora_llegada = self.ui.timeEditLlegada.time().toString()
         calle_1 = self.ui.comboBoxCalle1.currentText()
         calle_2 = self.ui.comboBoxCalle2.currentText()
+        tipo_arteria_1 = self.ui.comboBoxArteria1.currentText()
+        tipo_arteria_2 = self.ui.comboBoxArteria2.currentText()
         altura = self.ui.spinBoxAltura.value()
+        v_1 = self.ui.comboBoxV1.currentText()
+        v_2 = self.ui.comboBoxV2.currentText()
+        v_3 = self.ui.comboBoxV3.currentText()
+        v_4 = self.ui.comboBoxV4.currentText()
 
-        try:
-            insert(siniestros, inspectores=inspectores, fecha=fecha, hora_llegada=hora_llegada,
-                   calle_1=calle_1, calle_2=calle_2, altura=altura)
-            self.clearForm()
-            self.ui.lineEditStatus.setText('Siniestro Agregado')
-        except:
-            self.ui.lineEditStatus.setText('SINIESTRO NO AGREGADO')
+
+        insert(siniestros, inspectores=inspectores, fecha=fecha, hora_llegada=hora_llegada,
+                   calle_1=calle_1, calle_2=calle_2, tipo_arteria_1=tipo_arteria_1,
+                   tipo_arteria_2=tipo_arteria_2, altura=altura, v_1=v_1, v_2=v_2,
+                   v_3=v_3, v_4=v_4)
+        self.clearForm()
+        self.ui.lineEditStatus.setText('Siniestro Agregado')
+
+        #self.ui.lineEditStatus.setText('SINIESTRO NO AGREGADO')
 
 
 
@@ -56,11 +70,23 @@ class Form(QtGui.QDialog):
             self.ui.comboBoxCalle1.addItem(item[0])
             self.ui.comboBoxCalle2.addItem(item[0])
             self.ui.comboBoxInspector.addItem(item[1])
+            self.ui.comboBoxArteria1.addItem(item[2])
+            self.ui.comboBoxArteria2.addItem(item[2])
+            self.ui.comboBoxV1.addItem(item[3])
+            self.ui.comboBoxV2.addItem(item[3])
+            self.ui.comboBoxV3.addItem(item[3])
+            self.ui.comboBoxV4.addItem(item[3])
 
     def clearForm(self):
         self.ui.comboBoxInspector.clearEditText()
         self.ui.comboBoxCalle1.clearEditText()
         self.ui.comboBoxCalle2.clearEditText()
+        self.ui.comboBoxArteria1.clearEditText()
+        self.ui.comboBoxArteria2.clearEditText()
+        self.ui.comboBoxV1.clearEditText()
+        self.ui.comboBoxV2.clearEditText()
+        self.ui.comboBoxV3.clearEditText()
+        self.ui.comboBoxV4.clearEditText()
         self.ui.lineEditStatus.clear()
         self.ui.spinBoxAltura.clear()
 

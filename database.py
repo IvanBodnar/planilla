@@ -10,10 +10,13 @@ siniestros = Table('siniestros', metadata, autoload=True)
 
 
 def insert(table, inspectores, fecha, hora_llegada, calle_1,
-           calle_2, altura):
+           calle_2, tipo_arteria_1, tipo_arteria_2, altura,
+           v_1, v_2, v_3, v_4):
     conn = engine.connect()
     ins = table.insert().values(inspectores=inspectores, fecha=fecha, hora_llegada=hora_llegada,
-                                calle_1=calle_1, calle_2=calle_2, altura=altura)
+                                calle_1=calle_1, calle_2=calle_2, tipo_arteria_1=tipo_arteria_1,
+                                tipo_arteria_2=tipo_arteria_2, altura=altura, v_1=v_1, v_2=v_2,
+                                v_3=v_3, v_4=v_4)
     conn.execute(ins)
     conn.close()
 
