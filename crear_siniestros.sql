@@ -13,7 +13,9 @@ CREATE TABLE siniestros (
 	v_1 varchar(50),
 	v_2 varchar(50),
 	v_3 varchar(50),
-	v_4 varchar(50)
+	v_4 varchar(50),
+	fuerza_seguridad varchar(20),
+	sistema_salud varchar(10)
 
 );
 
