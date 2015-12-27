@@ -2,8 +2,6 @@ import sys
 from planilla import *
 from database import *
 import csv
-import sqlalchemy.exc
-
 
 
 class Form(QtGui.QDialog):
@@ -11,6 +9,7 @@ class Form(QtGui.QDialog):
         QtGui.QWidget.__init__(self, parent)
         self.ui = Ui_Dialog()
         self.ui.setupUi(self)
+        connect_qt()
         self.ui.comboBoxInspector.completer().setCompletionMode(QtGui.QCompleter.PopupCompletion)
         self.ui.comboBoxCalle1.completer().setCompletionMode(QtGui.QCompleter.PopupCompletion)
         self.ui.comboBoxCalle2.completer().setCompletionMode(QtGui.QCompleter.PopupCompletion)
@@ -22,22 +21,41 @@ class Form(QtGui.QDialog):
         self.ui.comboBoxV4.completer().setCompletionMode(QtGui.QCompleter.PopupCompletion)
         self.ui.comboBoxSeguridad.completer().setCompletionMode(QtGui.QCompleter.PopupCompletion)
         self.ui.comboBoxSalud.completer().setCompletionMode(QtGui.QCompleter.PopupCompletion)
+        self.ui.comboBoxSexo.completer().setCompletionMode(QtGui.QCompleter.PopupCompletion)
+        self.ui.comboBoxHospital.completer().setCompletionMode(QtGui.QCompleter.PopupCompletion)
+        self.ui.comboBoxCausa.completer().setCompletionMode(QtGui.QCompleter.PopupCompletion)
         self.ui.dateEdit.setDate(QtCore.QDate.currentDate())
         self.ui.spinBoxAltura.clear()
+        self.ui.spinBoxIDVictimas.setValue(max_id())
         QtCore.QObject.connect(self.ui.pushButtonAgregar,
                                QtCore.SIGNAL('clicked()'),
-                               self.insertar)
+                               self.insertar_siniestro)
         QtCore.QObject.connect(self.ui.pushButtonLimpiar,
                                QtCore.SIGNAL('clicked()'),
-                               self.clearForm)
+                               self.clear_form_siniestros)
         QtCore.QObject.connect(self.ui.comboBoxInspector,
-                               QtCore.SIGNAL('highlighted(QString)'),
-                               self.ui.lineEditStatus.clear)
-        self.populateCombo()
-        self.clearForm()
+                               QtCore.SIGNAL('activated(QString)'),
+                               self.ui.labelStatusSiniestros.clear)
+        QtCore.QObject.connect(self.ui.comboBoxSexo,
+                               QtCore.SIGNAL('activated(QString)'),
+                               self.ui.labelStatusVictimas.clear)
+        QtCore.QObject.connect(self.ui.pushButtonMostrarTabla,
+                               QtCore.SIGNAL('clicked()'),
+                               self.populate_table)
+        QtCore.QObject.connect(self.ui.pushButtonAgregarVictima,
+                               QtCore.SIGNAL('clicked()'),
+                               self.insertar_victima)
+        QtCore.QObject.connect(self.ui.pushButtonLimpiarVictima,
+                               QtCore.SIGNAL('clicked()'),
+                               self.clear_form_victimas)
 
 
-    def insertar(self):
+        self.populate_combo()
+        self.clear_form_siniestros()
+        self.clear_form_victimas()
+
+
+    def insertar_siniestro(self):
         inspectores = self.ui.comboBoxInspector.currentText()
         fecha = self.ui.dateEdit.date().toPyDate()
         hora_llegada = self.ui.timeEditLlegada.time().toString()
@@ -52,20 +70,33 @@ class Form(QtGui.QDialog):
         v_4 = self.ui.comboBoxV4.currentText()
         fuerza_seguridad = self.ui.comboBoxSeguridad.currentText()
         sistema_salud = self.ui.comboBoxSalud.currentText()
+        observaciones = self.ui.plainTextEditObservaciones.toPlainText()
 
-        insert(siniestros, inspectores=inspectores, fecha=fecha, hora_llegada=hora_llegada,
-                   calle_1=calle_1, calle_2=calle_2, tipo_arteria_1=tipo_arteria_1,
-                   tipo_arteria_2=tipo_arteria_2, altura=altura, v_1=v_1, v_2=v_2,
-                   v_3=v_3, v_4=v_4, fuerza_seguridad=fuerza_seguridad, sistema_salud=sistema_salud)
-        self.clearForm()
-        self.ui.lineEditStatus.setText('Siniestro Agregado')
+        insert_siniestro(siniestros, inspectores=inspectores, fecha=fecha, hora_llegada=hora_llegada,
+               calle_1=calle_1, calle_2=calle_2, tipo_arteria_1=tipo_arteria_1,
+               tipo_arteria_2=tipo_arteria_2, altura=altura, v_1=v_1, v_2=v_2,
+               v_3=v_3, v_4=v_4, fuerza_seguridad=fuerza_seguridad, sistema_salud=sistema_salud,
+               observaciones=observaciones)
+        self.clear_form_siniestros()
+        self.ui.labelStatusSiniestros.setText('Siniestro Agregado')
+        self.ui.spinBoxIDVictimas.setValue(max_id())
 
         #self.ui.lineEditStatus.setText('SINIESTRO NO AGREGADO')
 
+    def insertar_victima(self):
+        siniestro_id = self.ui.spinBoxIDVictimas.value()
+        sexo = self.ui.comboBoxSexo.currentText()
+        edad = self.ui.spinBoxEdad.value()
+        hospital_deriva = self.ui.comboBoxHospital.currentText()
+        causa = self.ui.comboBoxCausa.currentText()
+
+        insert_victima(victimas, siniestro_id=siniestro_id, sexo=sexo,
+                       edad=edad, hospital_deriva=hospital_deriva, causa=causa)
+        self.clear_form_victimas()
+        self.ui.labelStatusVictimas.setText('Victima Agregada')
 
 
-
-    def populateCombo(self):
+    def populate_combo(self):
         fh = open('listas.csv', 'r')
         reader = csv.reader(fh)
         listas = [x for x in reader]
@@ -83,8 +114,11 @@ class Form(QtGui.QDialog):
             self.ui.comboBoxV4.addItem(item[3])
             self.ui.comboBoxSeguridad.addItem(item[4])
             self.ui.comboBoxSalud.addItem(item[5])
+            self.ui.comboBoxSexo.addItem(item[6])
+            self.ui.comboBoxHospital.addItem(item[7])
+            self.ui.comboBoxCausa.addItem(item[8])
 
-    def clearForm(self):
+    def clear_form_siniestros(self):
         self.ui.comboBoxInspector.clearEditText()
         self.ui.comboBoxCalle1.clearEditText()
         self.ui.comboBoxCalle2.clearEditText()
@@ -96,8 +130,32 @@ class Form(QtGui.QDialog):
         self.ui.comboBoxV4.clearEditText()
         self.ui.comboBoxSeguridad.clearEditText()
         self.ui.comboBoxSalud.clearEditText()
-        self.ui.lineEditStatus.clear()
+        self.ui.labelStatusSiniestros.clear()
         self.ui.spinBoxAltura.clear()
+        self.ui.spinBoxCantidaVictimas.clear()
+        self.ui.spinBoxHomicidio.clear()
+        self.ui.plainTextEditObservaciones.clear()
+        self.ui.labelStatusVictimas.clear()
+
+    def clear_form_victimas(self):
+        self.ui.comboBoxSexo.clearEditText()
+        self.ui.spinBoxEdad.clear()
+        self.ui.comboBoxHospital.clearEditText()
+        self.ui.comboBoxCausa.clearEditText()
+        self.ui.labelStatusVictimas.clear()
+
+    def populate_table(self):
+        if self.ui.radioButtonSiniestros.isChecked():
+            table = "siniestros"
+        elif self.ui.radioButtonVictimas.isChecked():
+            table = "victimas"
+
+        self.model = QtSql.QSqlTableModel(self)
+        self.model.setTable(table)
+        self.model.setEditStrategy(QtSql.QSqlTableModel.OnManualSubmit)
+        self.model.select()
+        self.ui.tableViewMostrar.setModel(self.model)
+
 
 
 if __name__ == '__main__':
