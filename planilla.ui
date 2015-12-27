@@ -33,7 +33,7 @@
           <item>
            <layout class="QVBoxLayout" name="verticalLayout">
             <item>
-             <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0,0,0">
+             <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0">
               <property name="spacing">
                <number>20</number>
               </property>
@@ -46,16 +46,6 @@
               <property name="rightMargin">
                <number>0</number>
               </property>
-              <item>
-               <widget class="QLabel" name="label_7">
-                <property name="text">
-                 <string>ID:</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QSpinBox" name="spinBoxId"/>
-              </item>
               <item>
                <widget class="QLabel" name="label">
                 <property name="sizePolicy">
@@ -323,87 +313,6 @@
          </property>
         </widget>
        </item>
-       <item row="4" column="0">
-        <widget class="QGroupBox" name="groupBox_4">
-         <property name="title">
-          <string>Vehiculos</string>
-         </property>
-         <layout class="QGridLayout" name="gridLayout_5">
-          <item row="0" column="0">
-           <layout class="QGridLayout" name="gridLayout_4">
-            <item row="0" column="0">
-             <widget class="QLabel" name="label_24">
-              <property name="text">
-               <string>Vehiculo 1:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="0">
-             <widget class="QLabel" name="label_25">
-              <property name="text">
-               <string>Vehiculo 3:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1">
-             <widget class="QComboBox" name="comboBoxV1">
-              <property name="editable">
-               <bool>true</bool>
-              </property>
-              <property name="maxCount">
-               <number>30</number>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="1">
-             <widget class="QComboBox" name="comboBoxV3">
-              <property name="editable">
-               <bool>true</bool>
-              </property>
-              <property name="maxCount">
-               <number>30</number>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="2">
-             <widget class="QLabel" name="label_26">
-              <property name="text">
-               <string>Vehiculo 2:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="2">
-             <widget class="QLabel" name="label_27">
-              <property name="text">
-               <string>Vehiculo 4:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="3">
-             <widget class="QComboBox" name="comboBoxV2">
-              <property name="editable">
-               <bool>true</bool>
-              </property>
-              <property name="maxCount">
-               <number>30</number>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="3">
-             <widget class="QComboBox" name="comboBoxV4">
-              <property name="editable">
-               <bool>true</bool>
-              </property>
-              <property name="maxCount">
-               <number>30</number>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-         </layout>
-        </widget>
-       </item>
        <item row="5" column="0" colspan="2">
         <widget class="QGroupBox" name="groupBox_3">
          <property name="title">
@@ -504,6 +413,87 @@
          </property>
         </spacer>
        </item>
+       <item row="4" column="0" colspan="2">
+        <widget class="QGroupBox" name="groupBox_4">
+         <property name="title">
+          <string>Vehiculos</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_5">
+          <item row="0" column="0">
+           <layout class="QGridLayout" name="gridLayout_4">
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_24">
+              <property name="text">
+               <string>Vehiculo 1:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_25">
+              <property name="text">
+               <string>Vehiculo 3:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QComboBox" name="comboBoxV1">
+              <property name="editable">
+               <bool>true</bool>
+              </property>
+              <property name="maxCount">
+               <number>30</number>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QComboBox" name="comboBoxV3">
+              <property name="editable">
+               <bool>true</bool>
+              </property>
+              <property name="maxCount">
+               <number>30</number>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="2">
+             <widget class="QLabel" name="label_26">
+              <property name="text">
+               <string>Vehiculo 2:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="2">
+             <widget class="QLabel" name="label_27">
+              <property name="text">
+               <string>Vehiculo 4:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="3">
+             <widget class="QComboBox" name="comboBoxV2">
+              <property name="editable">
+               <bool>true</bool>
+              </property>
+              <property name="maxCount">
+               <number>30</number>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="3">
+             <widget class="QComboBox" name="comboBoxV4">
+              <property name="editable">
+               <bool>true</bool>
+              </property>
+              <property name="maxCount">
+               <number>30</number>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
       </layout>
       <zorder>line</zorder>
       <zorder>line_2</zorder>
@@ -511,7 +501,6 @@
       <zorder>groupBox</zorder>
       <zorder>groupBox_2</zorder>
       <zorder>groupBox_4</zorder>
-      <zorder>label_6</zorder>
       <zorder>groupBox_3</zorder>
      </widget>
      <widget class="QWidget" name="tab_2">

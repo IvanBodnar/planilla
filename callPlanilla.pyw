@@ -20,6 +20,8 @@ class Form(QtGui.QDialog):
         self.ui.comboBoxV2.completer().setCompletionMode(QtGui.QCompleter.PopupCompletion)
         self.ui.comboBoxV3.completer().setCompletionMode(QtGui.QCompleter.PopupCompletion)
         self.ui.comboBoxV4.completer().setCompletionMode(QtGui.QCompleter.PopupCompletion)
+        self.ui.comboBoxSeguridad.completer().setCompletionMode(QtGui.QCompleter.PopupCompletion)
+        self.ui.comboBoxSalud.completer().setCompletionMode(QtGui.QCompleter.PopupCompletion)
         self.ui.dateEdit.setDate(QtCore.QDate.currentDate())
         self.ui.spinBoxAltura.clear()
         QtCore.QObject.connect(self.ui.pushButtonAgregar,
@@ -28,12 +30,14 @@ class Form(QtGui.QDialog):
         QtCore.QObject.connect(self.ui.pushButtonLimpiar,
                                QtCore.SIGNAL('clicked()'),
                                self.clearForm)
+        QtCore.QObject.connect(self.ui.comboBoxInspector,
+                               QtCore.SIGNAL('highlighted(QString)'),
+                               self.ui.lineEditStatus.clear)
         self.populateCombo()
         self.clearForm()
 
 
     def insertar(self):
-        id = self.ui.spinBoxId.value()
         inspectores = self.ui.comboBoxInspector.currentText()
         fecha = self.ui.dateEdit.date().toPyDate()
         hora_llegada = self.ui.timeEditLlegada.time().toString()
@@ -46,12 +50,13 @@ class Form(QtGui.QDialog):
         v_2 = self.ui.comboBoxV2.currentText()
         v_3 = self.ui.comboBoxV3.currentText()
         v_4 = self.ui.comboBoxV4.currentText()
-
+        fuerza_seguridad = self.ui.comboBoxSeguridad.currentText()
+        sistema_salud = self.ui.comboBoxSalud.currentText()
 
         insert(siniestros, inspectores=inspectores, fecha=fecha, hora_llegada=hora_llegada,
                    calle_1=calle_1, calle_2=calle_2, tipo_arteria_1=tipo_arteria_1,
                    tipo_arteria_2=tipo_arteria_2, altura=altura, v_1=v_1, v_2=v_2,
-                   v_3=v_3, v_4=v_4)
+                   v_3=v_3, v_4=v_4, fuerza_seguridad=fuerza_seguridad, sistema_salud=sistema_salud)
         self.clearForm()
         self.ui.lineEditStatus.setText('Siniestro Agregado')
 
@@ -76,6 +81,8 @@ class Form(QtGui.QDialog):
             self.ui.comboBoxV2.addItem(item[3])
             self.ui.comboBoxV3.addItem(item[3])
             self.ui.comboBoxV4.addItem(item[3])
+            self.ui.comboBoxSeguridad.addItem(item[4])
+            self.ui.comboBoxSalud.addItem(item[5])
 
     def clearForm(self):
         self.ui.comboBoxInspector.clearEditText()
@@ -87,8 +94,11 @@ class Form(QtGui.QDialog):
         self.ui.comboBoxV2.clearEditText()
         self.ui.comboBoxV3.clearEditText()
         self.ui.comboBoxV4.clearEditText()
+        self.ui.comboBoxSeguridad.clearEditText()
+        self.ui.comboBoxSalud.clearEditText()
         self.ui.lineEditStatus.clear()
         self.ui.spinBoxAltura.clear()
+
 
 if __name__ == '__main__':
     app = QtGui.QApplication(sys.argv)
