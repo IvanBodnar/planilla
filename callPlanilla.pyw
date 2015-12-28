@@ -71,13 +71,16 @@ class Form(QtGui.QDialog):
         v_4 = self.ui.comboBoxV4.currentText()
         fuerza_seguridad = self.ui.comboBoxSeguridad.currentText()
         sistema_salud = self.ui.comboBoxSalud.currentText()
+        total_victimas = self.ui.spinBoxCantidaVictimas.value()
+        homicidio = self.ui.spinBoxHomicidio.value()
         observaciones = self.ui.plainTextEditObservaciones.toPlainText()
 
         insert_siniestro(siniestros, inspectores=inspectores, fecha=fecha, hora_llegada=hora_llegada,
-               calle_1=calle_1, calle_2=calle_2, tipo_arteria_1=tipo_arteria_1,
-               tipo_arteria_2=tipo_arteria_2, altura=altura, v_1=v_1, v_2=v_2,
-               v_3=v_3, v_4=v_4, fuerza_seguridad=fuerza_seguridad, sistema_salud=sistema_salud,
-               observaciones=observaciones)
+                         calle_1=calle_1, calle_2=calle_2, tipo_arteria_1=tipo_arteria_1,
+                         tipo_arteria_2=tipo_arteria_2, altura=altura, v_1=v_1, v_2=v_2,
+                         v_3=v_3, v_4=v_4, fuerza_seguridad=fuerza_seguridad,
+                         sistema_salud=sistema_salud, total_victimas=total_victimas,
+                         homicidio=homicidio, observaciones=observaciones)
         self.clear_form_siniestros()
         self.ui.labelStatusSiniestros.setText('Siniestro Agregado')
         self.ui.spinBoxIDVictimas.setValue(max_id())

@@ -16,13 +16,14 @@ victimas = Table('victimas', metadata, autoload=True)
 def insert_siniestro(table, inspectores, fecha, hora_llegada, calle_1,
            calle_2, tipo_arteria_1, tipo_arteria_2, altura,
            v_1, v_2, v_3, v_4, fuerza_seguridad, sistema_salud,
-           observaciones):
+           total_victimas, homicidio, observaciones):
     conn = engine.connect()
     ins = table.insert().values(inspectores=inspectores, fecha=fecha, hora_llegada=hora_llegada,
                                 calle_1=calle_1, calle_2=calle_2, tipo_arteria_1=tipo_arteria_1,
                                 tipo_arteria_2=tipo_arteria_2, altura=altura, v_1=v_1, v_2=v_2,
                                 v_3=v_3, v_4=v_4, fuerza_seguridad=fuerza_seguridad,
-                                sistema_salud=sistema_salud, observaciones=observaciones)
+                                sistema_salud=sistema_salud, total_victimas=total_victimas,
+                                homicidio=homicidio, observaciones=observaciones)
     conn.execute(ins)
     conn.close()
 
