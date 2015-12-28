@@ -53,6 +53,7 @@ class Form(QtGui.QDialog):
         self.populate_combo()
         self.clear_form_siniestros()
         self.clear_form_victimas()
+        self.model = QtSql.QSqlTableModel(self)
 
 
     def insertar_siniestro(self):
@@ -147,19 +148,24 @@ class Form(QtGui.QDialog):
     def populate_table(self):
         if self.ui.radioButtonSiniestros.isChecked():
             table = "siniestros"
+            self.model = QtSql.QSqlTableModel(self)
+            self.model.setTable(table)
         elif self.ui.radioButtonVictimas.isChecked():
             table = "victimas"
+            self.model = QtSql.QSqlTableModel(self)
+            self.model.setTable(table)
 
-        self.model = QtSql.QSqlTableModel(self)
-        self.model.setTable(table)
         self.model.setEditStrategy(QtSql.QSqlTableModel.OnManualSubmit)
         self.model.select()
         self.ui.tableViewMostrar.setModel(self.model)
 
 
 
+
 if __name__ == '__main__':
     app = QtGui.QApplication(sys.argv)
+    if not connect_qt():
+        sys.exit(1)
     my_app = Form()
     my_app.show()
     sys.exit(app.exec_())

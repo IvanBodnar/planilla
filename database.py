@@ -1,6 +1,9 @@
 from sqlalchemy import create_engine
-from sqlalchemy import Table, MetaData, select, func
+from sqlalchemy import Table, MetaData, select, func, dialects
+from PyQt4.QtGui import *
 from PyQt4 import QtSql
+from PyQt4.QtCore import *
+from PyQt4.QtSql import *
 
 engine = create_engine('postgresql://postgres:postgres@localhost/planilla')
 metadata = MetaData(bind=engine)
@@ -31,12 +34,18 @@ def insert_victima(table, siniestro_id, sexo, edad, hospital_deriva, causa):
     conn.close()
 
 def connect_qt():
-    db = QtSql.QSqlDatabase.addDatabase('QPSQL')
+    db = QtSql.QSqlDatabase.addDatabase("QPSQL")
     db.setHostName('localhost')
+    db.setPort(5432)
     db.setDatabaseName('planilla')
     db.setUserName('postgres')
     db.setPassword('postgres')
     db.open()
+    if (db.open()==False):
+      QMessageBox.critical(None, "Database Error",
+			    db.lastError().text())
+    return True
+
 
 def max_id():
     conn = engine.connect()
