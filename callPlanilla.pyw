@@ -26,7 +26,8 @@ class Form(QtGui.QDialog):
         self.ui.comboBoxCausa.completer().setCompletionMode(QtGui.QCompleter.PopupCompletion)
         self.ui.dateEdit.setDate(QtCore.QDate.currentDate())
         self.ui.spinBoxAltura.clear()
-        self.ui.spinBoxIDVictimas.setValue(max_id())
+        if max_id():
+            self.ui.spinBoxIDVictimas.setValue(max_id())
         QtCore.QObject.connect(self.ui.pushButtonAgregar,
                                QtCore.SIGNAL('clicked()'),
                                self.insertar_siniestro)
@@ -48,11 +49,10 @@ class Form(QtGui.QDialog):
         QtCore.QObject.connect(self.ui.pushButtonLimpiarVictima,
                                QtCore.SIGNAL('clicked()'),
                                self.clear_form_victimas)
-
-
         self.populate_combo()
         self.clear_form_siniestros()
         self.clear_form_victimas()
+        self.ui.spinBoxHomicidio.setValue(0)
         self.model = QtSql.QSqlTableModel(self)
 
 
@@ -84,6 +84,8 @@ class Form(QtGui.QDialog):
         self.clear_form_siniestros()
         self.ui.labelStatusSiniestros.setText('Siniestro Agregado')
         self.ui.spinBoxIDVictimas.setValue(max_id())
+        self.ui.spinBoxHomicidio.setValue(0)
+
 
         #self.ui.lineEditStatus.setText('SINIESTRO NO AGREGADO')
 

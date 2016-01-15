@@ -2,8 +2,6 @@ from sqlalchemy import create_engine
 from sqlalchemy import Table, MetaData, select, func, dialects
 from PyQt4.QtGui import *
 from PyQt4 import QtSql
-from PyQt4.QtCore import *
-from PyQt4.QtSql import *
 
 engine = create_engine('postgresql://postgres:postgres@localhost/planilla')
 metadata = MetaData(bind=engine)
@@ -27,12 +25,14 @@ def insert_siniestro(table, inspectores, fecha, hora_llegada, calle_1,
     conn.execute(ins)
     conn.close()
 
+
 def insert_victima(table, siniestro_id, sexo, edad, hospital_deriva, causa):
     conn = engine.connect()
     ins = table.insert().values(siniestro_id=siniestro_id, sexo=sexo, edad=edad,
                                 hospital_deriva=hospital_deriva, causa=causa)
     conn.execute(ins)
     conn.close()
+
 
 def connect_qt():
     db = QtSql.QSqlDatabase.addDatabase("QPSQL")
@@ -42,16 +42,15 @@ def connect_qt():
     db.setUserName('postgres')
     db.setPassword('postgres')
     db.open()
-    if (db.open()==False):
-      QMessageBox.critical(None, "Database Error",
-			    db.lastError().text())
+    if not db.open():
+        QMessageBox.critical(None, "Database Error", db.lastError().text())
     return True
 
 
 def max_id():
     conn = engine.connect()
-    s = select([func.max(siniestros.c.id)])
-    result = conn.execute(s)
+    sel = select([func.max(siniestros.c.id)])
+    result = conn.execute(sel)
     return [x for x in result][0][0]
 
 

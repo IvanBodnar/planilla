@@ -813,6 +813,7 @@
   <tabstop>comboBoxSeguridad</tabstop>
   <tabstop>comboBoxSalud</tabstop>
   <tabstop>spinBoxCantidaVictimas</tabstop>
+  <tabstop>spinBoxHomicidio</tabstop>
   <tabstop>plainTextEditObservaciones</tabstop>
   <tabstop>pushButtonAgregar</tabstop>
   <tabstop>pushButtonLimpiar</tabstop>
