@@ -30,7 +30,7 @@ class Form(QtGui.QDialog):
             self.ui.spinBoxIDVictimas.setValue(max_id())
         QtCore.QObject.connect(self.ui.pushButtonAgregar,
                                QtCore.SIGNAL('clicked()'),
-                               self.insertar_siniestro)
+                               self.confirmation)
         QtCore.QObject.connect(self.ui.pushButtonLimpiar,
                                QtCore.SIGNAL('clicked()'),
                                self.clear_form_siniestros)
@@ -45,7 +45,7 @@ class Form(QtGui.QDialog):
                                self.populate_table)
         QtCore.QObject.connect(self.ui.pushButtonAgregarVictima,
                                QtCore.SIGNAL('clicked()'),
-                               self.insertar_victima)
+                               self.confirmation)
         QtCore.QObject.connect(self.ui.pushButtonLimpiarVictima,
                                QtCore.SIGNAL('clicked()'),
                                self.clear_form_victimas)
@@ -89,6 +89,7 @@ class Form(QtGui.QDialog):
 
         #self.ui.lineEditStatus.setText('SINIESTRO NO AGREGADO')
 
+
     def insertar_victima(self):
         siniestro_id = self.ui.spinBoxIDVictimas.value()
         sexo = self.ui.comboBoxSexo.currentText()
@@ -100,6 +101,7 @@ class Form(QtGui.QDialog):
                        edad=edad, hospital_deriva=hospital_deriva, causa=causa)
         self.clear_form_victimas()
         self.ui.labelStatusVictimas.setText('Victima Agregada')
+
 
 
     def populate_combo(self):
@@ -164,7 +166,22 @@ class Form(QtGui.QDialog):
         self.model.select()
         self.ui.tableViewMostrar.setModel(self.model)
 
+    def confirmation(self):
+        msg = 'Agregar dato?'
+        reply = QtGui.QMessageBox.question(self, 'Message', msg, QtGui.QMessageBox.Yes,
+                                   QtGui.QMessageBox.No)
+        sender = self.sender()
 
+        if sender.text() == 'Agregar Siniestro':
+            if reply == QtGui.QMessageBox.Yes:
+                self.insertar_siniestro()
+            else:
+                self.ui.labelStatusSiniestros.setText('El Dato No Fue Agregado')
+        elif sender.text() == 'Agregar Victima':
+            if reply == QtGui.QMessageBox.Yes:
+                self.insertar_victima()
+            else:
+                self.ui.labelStatusVictimas.setText('El Dato No Fue Agregado')
 
 
 if __name__ == '__main__':

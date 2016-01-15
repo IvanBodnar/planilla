@@ -1,4 +1,4 @@
-﻿
+﻿﻿
 CREATE TABLE siniestros (
 
 	id SERIAL PRIMARY KEY,
